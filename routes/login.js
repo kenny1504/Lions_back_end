@@ -12,28 +12,15 @@ router.post('/login', function (req, res) {
 
     User.findOne({ usuario: body.usuario }, (erro, usuarioDB)=>{
         if (erro) {
-            return res.status(500).json({
-                ok: false,
-                err: erro
-            })
+            return res.status(500).send(erro.toString());
         }
         // Verifica que exista un usuario con el nombre escrito.
         if (!usuarioDB) {
-            return res.status(400).json({
-                ok: false,
-                err: {
-                    message: "Usuario o contraseña incorrectos"
-                }
-            })
+            return res.status(400).send("Usuario o contraseña incorrectos");
         }
         // Válida que la contraseña escrita por el usuario, sea la almacenada en la db
         if (! bcrypt.compareSync(body.password, usuarioDB.password)){
-            return res.status(400).json({
-                ok: false,
-                err: {
-                    message: "Usuario o contraseña incorrectos"
-                }
-            });
+            return res.status(400).send("Usuario o contraseña incorrectos");
         }
         // Genera el token de autenticación
         let token = jwt.sign({

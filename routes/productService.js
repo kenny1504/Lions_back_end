@@ -1,9 +1,10 @@
 const express  = require("express");
 const router = express.Router();
 const  productServiceSchema = require("../models/productService");
+const auth = require("../middleware/auth");
 
 // save producto or service
-router.post('/productServices', (req,res)=> {
+router.post('/productServices', auth, (req,res)=> {
     const productService= productServiceSchema(req.body);
     productService.save()
         .then((data) => res.json(data))
@@ -11,7 +12,7 @@ router.post('/productServices', (req,res)=> {
 })
 
 // get all producto and service
-router.get('/productServices', (req,res)=> {
+router.get('/productServices',auth, (req,res)=> {
 
     productServiceSchema
         .find()
@@ -21,7 +22,7 @@ router.get('/productServices', (req,res)=> {
 
 
 // get producto or service
-router.get('/productServices/:id', (req,res)=> {
+router.get('/productServices/:id', auth, (req,res)=> {
 
     const {id} = req.params;
     productServiceSchema
@@ -31,7 +32,7 @@ router.get('/productServices/:id', (req,res)=> {
 })
 
 // update producto or service
-router.put('/productServices/:id', (req,res)=> {
+router.put('/productServices/:id', auth, (req,res)=> {
     const {id} = req.params;
     const {nombre, precio, tipo, existencia } = req.body;
     productServiceSchema
@@ -42,7 +43,7 @@ router.put('/productServices/:id', (req,res)=> {
 
 
 // delete producto or service
-router.delete('/productServices/:id', (req,res)=> {
+router.delete('/productServices/:id', auth, (req,res)=> {
     const {id} = req.params;
     productServiceSchema
         .remove({_id:id})
