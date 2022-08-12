@@ -33,9 +33,9 @@ router.get('/productServices/:id', (req,res)=> {
 // update producto or service
 router.put('/productServices/:id', (req,res)=> {
     const {id} = req.params;
-    const {nombre, precio, tipo } = req.body;
+    const {nombre, precio, tipo, existencia } = req.body;
     productServiceSchema
-        .updateOne({_id:id}, {$set:{nombre, precio, tipo}})
+        .updateOne({_id:id}, {$set:{nombre, precio, tipo, existencia}})
         .then((data) => res.json(data))
         .catch((error) => res.json({message: error}));
 })
